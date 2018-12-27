@@ -170,9 +170,9 @@ class DataSearch extends Component {
 		const fields = dataFields.map(
 			(field, index) =>
 				`${field}${
-					Array.isArray(props.fieldWeights) && props.fieldWeights[index]
-						? `^${props.fieldWeights[index]}`
-						: ''
+				Array.isArray(props.fieldWeights) && props.fieldWeights[index]
+					? `^${props.fieldWeights[index]}`
+					: ''
 				}`,
 		);
 
@@ -253,6 +253,11 @@ class DataSearch extends Component {
 		}
 	}, this.props.debounce);
 
+	handleUserSelection = (value) => {
+		this.selectSuggestion(value.title)
+		if (this.onValueSelected) this.onValueSelected(value)
+	}
+
 	selectSuggestion = (value) => {
 		this.setState({
 			suggestions: [],
@@ -310,7 +315,7 @@ class DataSearch extends Component {
 				keyboardShouldPersistTaps="always"
 				renderRow={item => (
 					<ListItem
-						onPress={() => this.selectSuggestion(item.label)}
+						onPress={() => this.handleUserSelection(item)}
 						{...getInnerKey(this.props.innerProps, 'listItem')}
 					>
 						<Text
@@ -387,8 +392,8 @@ class DataSearch extends Component {
 								</Button>
 							</Right>
 						) : (
-							<Right style={getInnerKey(this.props.innerStyle, 'right')} />
-						)}
+								<Right style={getInnerKey(this.props.innerStyle, 'right')} />
+							)}
 					</Header>
 					<Item
 						regular
@@ -515,72 +520,72 @@ class DataSearch extends Component {
 				{this.props.defaultSuggestions || this.props.autosuggest ? (
 					this.renderDataSearch(style)
 				) : (
-					<Item
-						regular
-						style={{ marginLeft: 0 }}
-						{...getInnerKey(this.props.innerProps, 'item')}
-					>
-						{this.props.showIcon && this.props.iconPosition === 'left' ? (
-							<Icon
-								name="search"
-								style={{
-									fontSize: 22,
-									top: 2,
-									...getInnerKey(this.props.innerStyle, 'icon'),
-								}}
-								{...getInnerKey(this.props.innerProps, 'icon')}
-							/>
-						) : null}
-						<Input
-							style={{
-								color: this.props.theming.textColor,
-								...style,
-								...getInnerKey(this.props.innerStyle, 'input'),
-							}}
-							placeholder={this.props.placeholder}
-							onChangeText={this.setValue}
-							value={this.state.currentValue}
-							autoFocus={this.props.autoFocus}
-							{...getInnerKey(this.props.innerProps, 'input')}
-						/>
-						{this.state.currentValue && this.props.showClear ? (
-							<Button
-								transparent
-								onPress={this.clearValue}
-								style={getInnerKey(this.props.innerStyle, 'button')}
-								{...getInnerKey(this.props.innerProps, 'button')}
-							>
+						<Item
+							regular
+							style={{ marginLeft: 0 }}
+							{...getInnerKey(this.props.innerProps, 'item')}
+						>
+							{this.props.showIcon && this.props.iconPosition === 'left' ? (
 								<Icon
-									name="md-close"
+									name="search"
 									style={{
 										fontSize: 22,
-										top: 3,
-										color: '#666',
-										marginLeft: 10,
-										marginRight:
-											this.props.showIcon
-											&& this.props.iconPosition === 'right'
-												? 0
-												: 10,
+										top: 2,
 										...getInnerKey(this.props.innerStyle, 'icon'),
 									}}
 									{...getInnerKey(this.props.innerProps, 'icon')}
 								/>
-							</Button>
-						) : null}
-						{this.props.showIcon && this.props.iconPosition === 'right' ? (
-							<Icon
-								name="search"
+							) : null}
+							<Input
 								style={{
-									fontSize: 22,
-									top: 2,
-									...getInnerKey(this.props.innerStyle, 'icon'),
+									color: this.props.theming.textColor,
+									...style,
+									...getInnerKey(this.props.innerStyle, 'input'),
 								}}
-								{...getInnerKey(this.props.innerProps, 'icon')}
+								placeholder={this.props.placeholder}
+								onChangeText={this.setValue}
+								value={this.state.currentValue}
+								autoFocus={this.props.autoFocus}
+								{...getInnerKey(this.props.innerProps, 'input')}
 							/>
-						) : null}
-					</Item>
-				)}
+							{this.state.currentValue && this.props.showClear ? (
+								<Button
+									transparent
+									onPress={this.clearValue}
+									style={getInnerKey(this.props.innerStyle, 'button')}
+									{...getInnerKey(this.props.innerProps, 'button')}
+								>
+									<Icon
+										name="md-close"
+										style={{
+											fontSize: 22,
+											top: 3,
+											color: '#666',
+											marginLeft: 10,
+											marginRight:
+												this.props.showIcon
+													&& this.props.iconPosition === 'right'
+													? 0
+													: 10,
+											...getInnerKey(this.props.innerStyle, 'icon'),
+										}}
+										{...getInnerKey(this.props.innerProps, 'icon')}
+									/>
+								</Button>
+							) : null}
+							{this.props.showIcon && this.props.iconPosition === 'right' ? (
+								<Icon
+									name="search"
+									style={{
+										fontSize: 22,
+										top: 2,
+										...getInnerKey(this.props.innerStyle, 'icon'),
+									}}
+									{...getInnerKey(this.props.innerProps, 'icon')}
+								/>
+							) : null}
+						</Item>
+					)}
 			</View>
 		);
 	}
