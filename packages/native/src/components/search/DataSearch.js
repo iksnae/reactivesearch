@@ -254,7 +254,7 @@ class DataSearch extends Component {
 	}, this.props.debounce);
 
 	handleUserSelection = (value) => {
-		this.selectSuggestion(value.title)
+		this.selectSuggestion(value.label)
 		if (this.onValueSelected) this.onValueSelected(value)
 	}
 
